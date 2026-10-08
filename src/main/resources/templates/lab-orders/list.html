@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lab Orders</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f5f7fb;
+            margin: 0;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background: #2563eb;
+            color: white;
+            padding: 11px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>Laboratory Orders</h1>
+
+        <a
+            href="/lab/orders/create"
+            class="btn">
+
+            + New Lab Order
+
+        </a>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>Order No.</th>
+
+            <th>Patient</th>
+
+            <th>Doctor</th>
+
+            <th>Date</th>
+
+            <th>Status</th>
+
+            <th>Amount</th>
+
+            <th>Action</th>
+
+        </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        <tr
+            th:each="order : ${orders}">
+
+            <td
+                th:text="${order.orderNumber}">
+            </td>
+
+
+            <td
+                th:text="${order.patient.firstName
+                    + ' '
+                    + order.patient.lastName}">
+            </td>
+
+
+            <td
+                th:text="${order.doctor != null
+                    ? order.doctor.doctorName
+                    : 'Not Assigned'}">
+            </td>
+
+
+            <td
+                th:text="${order.orderDate}">
+            </td>
+
+
+            <td
+                th:text="${order.status}">
+            </td>
+
+
+            <td>
+
+                ₹
+
+                <span
+                    th:text="${order.totalAmount}">
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <a
+                    th:href="@{/lab/orders/{id}
+                    (id=${order.orderId})}">
+
+                    View
+
+                </a>
+
+            </td>
+
+        </tr>
+
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

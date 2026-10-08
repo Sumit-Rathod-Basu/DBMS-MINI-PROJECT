@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Create Lab Report</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .form-container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 11px 20px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back {
+            margin-left: 12px;
+            text-decoration: none;
+            color: #555;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>Create Lab Report</h1>
+
+
+    <form th:action="@{/lab/reports/save}"
+          th:object="${report}"
+          method="post">
+
+
+        <label>
+            Report Number
+        </label>
+
+        <input type="text"
+               th:field="*{reportNumber}"
+               placeholder="Example: REP-001"
+               required>
+
+
+        <label>
+            Lab Order
+        </label>
+
+        <select th:field="*{order}" required>
+
+            <option value="">
+                -- Select Lab Order --
+            </option>
+
+            <option th:each="order : ${orders}"
+                    th:value="${order.orderId}"
+                    th:text="${order.orderNumber}">
+            </option>
+
+        </select>
+
+
+        <label>
+            Report Date
+        </label>
+
+        <input type="datetime-local"
+               th:field="*{reportDate}">
+
+
+        <label>
+            Verified By (Assistant ID)
+        </label>
+
+        <input type="number"
+               th:field="*{verifiedBy}"
+               placeholder="Enter assistant ID">
+
+
+        <label>
+            Status
+        </label>
+
+        <select th:field="*{status}">
+
+            <option value="DRAFT">
+                DRAFT
+            </option>
+
+            <option value="VERIFIED">
+                VERIFIED
+            </option>
+
+            <option value="COMPLETED">
+                COMPLETED
+            </option>
+
+        </select>
+
+
+        <label>
+            Clinical Notes
+        </label>
+
+        <textarea th:field="*{clinicalNotes}"
+                  placeholder="Enter clinical notes"></textarea>
+
+
+        <button type="submit">
+            Save Report
+        </button>
+
+        <a href="/lab/reports" class="back">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

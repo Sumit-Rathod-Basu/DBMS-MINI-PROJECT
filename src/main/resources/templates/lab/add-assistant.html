@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Add Lab Assistant</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        .buttons {
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 11px 20px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #125ca5;
+        }
+
+        .back {
+            margin-left: 12px;
+            text-decoration: none;
+            color: #555;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>Add Lab Assistant</h1>
+
+
+    <form th:action="@{/lab/assistants/save}"
+          th:object="${assistant}"
+          method="post">
+
+
+        <label>
+            Full Name
+        </label>
+
+        <input type="text"
+               th:field="*{fullName}"
+               placeholder="Enter full name"
+               required>
+
+
+        <label>
+            Email
+        </label>
+
+        <input type="email"
+               th:field="*{email}"
+               placeholder="Enter email address"
+               required>
+
+
+        <label>
+            Mobile
+        </label>
+
+        <input type="text"
+               th:field="*{mobile}"
+               placeholder="Enter mobile number">
+
+
+        <label>
+            Status
+        </label>
+
+        <select th:field="*{status}">
+
+            <option value="ACTIVE">
+                ACTIVE
+            </option>
+
+            <option value="INACTIVE">
+                INACTIVE
+            </option>
+
+        </select>
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Save Assistant
+            </button>
+
+            <a href="/lab/assistants" class="back">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

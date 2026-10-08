@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        RR Diagnostics - Laboratory Report
+    </title>
+
+    <!-- Bootstrap -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- JsBarcode -->
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js">
+    </script>
+
+    <!-- QR Code -->
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #eef1f5;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #172033;
+        }
+
+        .report-wrapper {
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .report-container {
+            background: white;
+            padding: 35px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.10);
+        }
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .lab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #0b1f3a;
+            padding-bottom: 18px;
+        }
+
+        .lab-name {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0b1f3a;
+            letter-spacing: 1px;
+        }
+
+        .lab-subtitle {
+            font-size: 14px;
+            color: #657084;
+            margin-top: 3px;
+        }
+
+        .lab-contact {
+            text-align: right;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #4d5666;
+        }
+
+        /* =========================================
+           TITLE
+        ========================================= */
+
+        .report-title {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .report-title h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .report-title span {
+            font-size: 12px;
+            color: #6c7584;
+        }
+
+        /* =========================================
+           PATIENT CARD
+        ========================================= */
+
+        .info-card {
+            border: 1px solid #d9dfe8;
+            margin-bottom: 18px;
+        }
+
+        .info-heading {
+            background: #0b1f3a;
+            color: white;
+            padding: 9px 13px;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-body {
+            padding: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #7a8494;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* =========================================
+           TEST CATEGORY
+        ========================================= */
+
+        .category-heading {
+            background: #edf2f7;
+            border-left: 5px solid #0b1f3a;
+            padding: 9px 12px;
+            font-weight: 800;
+            margin-top: 18px;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+        }
+
+        .result-table th {
+            background: #0b1f3a;
+            color: white;
+            padding: 9px;
+            font-size: 11px;
+            text-align: left;
+        }
+
+        .result-table td {
+            border: 1px solid #dfe4ea;
+            padding: 9px;
+            font-size: 12px;
+        }
+
+        .result-table tr {
+            page-break-inside: avoid;
+        }
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .status-normal {
+            background: #e7f7ed;
+            color: #167342;
+        }
+
+        .status-low {
+            background: #fff4df;
+            color: #9a6100;
+        }
+
+        .status-high {
+            background: #fff0ed;
+            color: #b43828;
+        }
+
+        .status-critical {
+            background: #e9d9df;
+            color: #821d39;
+        }
+
+        .status-default {
+            background: #edf0f4;
+            color: #4c5665;
+        }
+
+        /* =========================================
+           BILLING
+        ========================================= */
+
+        .billing-box {
+            margin-top: 25px;
+            margin-left: auto;
+            width: 320px;
+            border: 1px solid #d9dfe8;
+        }
+
+        .billing-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 12px;
+            font-size: 13px;
+        }
+
+        .billing-total {
+            background: #0b1f3a;
+            color: white;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        /* =========================================
+           VERIFICATION AREA
+        ========================================= */
+
+        .verification-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #d9dfe8;
+            margin-top: 30px;
+            padding-top: 20px;
+        }
+
+        .barcode-area {
+            text-align: left;
+        }
+
+        .qr-area {
+            text-align: center;
+        }
+
+        #barcode {
+            max-width: 300px;
+            height: 65px;
+        }
+
+        #qrcode {
+            width: 115px;
+            height: 115px;
+        }
+
+        .verification-text {
+            font-size: 10px;
+            color: #687284;
+            margin-top: 5px;
+        }
+
+        /* =========================================
+           SIGNATURE
+        ========================================= */
+
+        .signature-area {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 45px;
+        }
+
+        .signature-box {
+            width: 220px;
+            text-align: center;
+            font-size: 11px;
+            color: #555e6c;
+        }
+
+        .signature-line {
+            border-top: 1px solid #606a78;
+            margin-bottom: 7px;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .report-footer {
+            border-top: 1px solid #dfe4ea;
+            margin-top: 25px;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 10px;
+            color: #7a8494;
+        }
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .action-bar {
+            max-width: 900px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* =========================================
+           PRINT
+        ========================================= */
+
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+
+        @media print {
+
+            body {
+                background: white;
+            }
+
+            .report-wrapper {
+                max-width: none;
+                margin: 0;
+            }
+
+            .report-container {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .action-bar {
+                display: none !important;
+            }
+
+            .verification-section {
+                page-break-inside: avoid;
+            }
+
+            .signature-area {
+                page-break-inside: avoid;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<!-- ========================================= -->
+<!-- PRINT ACTIONS -->
+<!-- ========================================= -->
+
+<div class="action-bar">
+
+    <button
+            type="button"
+            class="btn btn-primary"
+            onclick="window.print()">
+
+        🖨 Print Report
+
+    </button>
+
+    <a
+            th:href="@{/lab/report/{id}(id=${patientInfo.id})}"
+            class="btn btn-outline-secondary">
+
+        Refresh
+
+    </a>
+
+</div>
+
+
+<!-- ========================================= -->
+<!-- REPORT -->
+<!-- ========================================= -->
+
+<div class="report-wrapper">
+
+    <div class="report-container">
+
+
+        <!-- ================================= -->
+        <!-- HEADER -->
+        <!-- ================================= -->
+
+        <div class="lab-header">
+
+            <div>
+
+                <div class="lab-name">
+                    RR DIAGNOSTICS
+                </div>
+
+                <div class="lab-subtitle">
+                    PATHOLOGY LABORATORY
+                </div>
+
+                <div class="lab-subtitle">
+                    Digital Diagnostic &amp; Pathology Services
+                </div>
+
+            </div>
+
+
+            <div class="lab-contact">
+
+                <strong>LABORATORY REPORT</strong><br>
+
+                Patient Diagnostic Services<br>
+
+                Maharashtra, India
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- REPORT TITLE -->
+        <!-- ================================= -->
+
+        <div class="report-title">
+
+            <h3>
+                LABORATORY TEST REPORT
+            </h3>
+
+            <span>
+                Computer Generated Diagnostic Report
+            </span>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- PATIENT INFORMATION -->
+        <!-- ================================= -->
+
+        <div class="info-card">
+
+            <div class="info-heading">
+                Patient Information
+            </div>
+
+            <div class="info-body">
+
+                <div class="row">
+
+                    <div class="col-6 info-item">
+
+                        <div class="info-label">
+                            Patient Name
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${patientInfo.patientName}">
+                            Patient Name
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-3 info-item">
+
+                        <div class="info-label">
+                            Patient ID
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${patientInfo.id}">
+                            1
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-3 info-item">
+
+                        <div class="info-label">
+                            Age / Gender
+                        </div>
+
+                        <div class="info-value">
+
+                            <span th:text="${age}">
+                                20
+                            </span>
+                            Y /
+                            <span th:text="${patientInfo.gender}">
+                                Male
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6 info-item">
+
+                        <div class="info-label">
+                            Mobile
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${patientInfo.mobile}">
+                            0000000000
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6 info-item">
+
+                        <div class="info-label">
+                            Email
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${patientInfo.email}">
+                            example@email.com
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-12 info-item">
+
+                        <div class="info-label">
+                            Address
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${patientInfo.address}">
+                            Address
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- BILL INFORMATION -->
+        <!-- ================================= -->
+
+        <div class="info-card">
+
+            <div class="info-heading">
+                Bill Information
+            </div>
+
+            <div class="info-body">
+
+                <div class="row">
+
+                    <div class="col-4 info-item">
+
+                        <div class="info-label">
+                            Bill Number
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${patientInfo.billNumber}">
+                            RR-20261008-0001
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-4 info-item">
+
+                        <div class="info-label">
+                            Bill Date
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${#temporals.format(patientInfo.billDate, 'dd/MM/yyyy')}">
+                            08/10/2026
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-4 info-item">
+
+                        <div class="info-label">
+                            Bill Time
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${#temporals.format(patientInfo.billTime, 'hh:mm a')}">
+                            05:30 PM
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-4 info-item">
+
+                        <div class="info-label">
+                            Payment Status
+                        </div>
+
+                        <div class="info-value"
+                             th:text="${patientInfo.paymentStatus}">
+                            PAID
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- TEST RESULTS -->
+        <!-- ================================= -->
+
+        <div class="info-heading">
+            Laboratory Test Results
+        </div>
+
+
+        <div th:if="${#lists.isEmpty(tests)}"
+             class="alert alert-warning mt-3">
+
+            No test results have been entered for this patient.
+
+        </div>
+
+
+        <!-- GROUPED CATEGORIES -->
+
+        <div th:each="entry : ${groupedTests}">
+
+            <div class="category-heading"
+                 th:text="${entry.key}">
+
+                HEMATOLOGY
+
+            </div>
+
+
+            <table class="result-table">
+
+                <thead>
+
+                <tr>
+
+                    <th style="width: 30%;">
+                        Test Name
+                    </th>
+
+                    <th style="width: 15%;">
+                        Result
+                    </th>
+
+                    <th style="width: 15%;">
+                        Unit
+                    </th>
+
+                    <th style="width: 20%;">
+                        Reference Range
+                    </th>
+
+                    <th style="width: 20%;">
+                        Status
+                    </th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                <tr th:each="test : ${entry.value}">
+
+                    <td
+                            th:text="${test.testName}">
+                        Hemoglobin
+                    </td>
+
+                    <td
+                            th:text="${test.resultValue}">
+                        14.2
+                    </td>
+
+                    <td
+                            th:text="${test.unit}">
+                        g/dL
+                    </td>
+
+                    <td
+                            th:text="${test.referenceRange}">
+                        13 - 17
+                    </td>
+
+                    <td>
+
+                        <span
+                                class="status-badge"
+                                th:classappend="${test.status == 'NORMAL' ? ' status-normal' :
+                                    (test.status == 'LOW' ? ' status-low' :
+                                    (test.status == 'HIGH' ? ' status-high' :
+                                    (test.status == 'CRITICAL' ? ' status-critical' :
+                                    ' status-default')))}"
+                                th:text="${test.status != null && !test.status.isBlank() ? test.status : 'N/A'}">
+
+                            NORMAL
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+            <!-- Remarks -->
+
+            <div
+                    th:each="test : ${entry.value}"
+                    th:if="${test.remarks != null && !test.remarks.isBlank()}"
+                    style="font-size: 11px; padding: 5px 10px;">
+
+                <strong
+                        th:text="${test.testName + ' - Remarks:'}">
+                    Remarks:
+                </strong>
+
+                <span th:text="${test.remarks}">
+                    -
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- BILL SUMMARY -->
+        <!-- ================================= -->
+
+        <div class="billing-box">
+
+            <div class="billing-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <strong>
+
+                    ₹
+                    <span th:text="${patientInfo.subtotal}">
+                        0.00
+                    </span>
+
+                </strong>
+
+            </div>
+
+
+            <div class="billing-row">
+
+                <span>
+                    Discount
+                </span>
+
+                <strong>
+
+                    ₹
+                    <span th:text="${patientInfo.discount}">
+                        0.00
+                    </span>
+
+                </strong>
+
+            </div>
+
+
+            <div class="billing-row billing-total">
+
+                <span>
+                    TOTAL
+                </span>
+
+                <span>
+
+                    ₹
+                    <span th:text="${patientInfo.totalAmount}">
+                        0.00
+                    </span>
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- BARCODE + QR -->
+        <!-- ================================= -->
+
+        <div class="verification-section">
+
+            <div class="barcode-area">
+
+                <svg id="barcode"></svg>
+
+                <div class="verification-text">
+
+                    Bill No:
+                    <strong
+                            th:text="${patientInfo.billNumber}">
+                        RR-20261008-0001
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="qr-area">
+
+                <div
+                        id="qrcode"
+                        th:attr="data-url=@{/verify/{bill}(bill=${patientInfo.billNumber})}">
+                </div>
+
+                <div class="verification-text">
+
+                    Scan QR to verify report
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- SIGNATURE -->
+        <!-- ================================= -->
+
+        <div class="signature-area">
+
+            <div class="signature-box">
+
+                <div class="signature-line"></div>
+
+                Patient / Authorized Person
+
+            </div>
+
+
+            <div class="signature-box">
+
+                <div class="signature-line"></div>
+
+                Laboratory Authorized Signatory
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- FOOTER -->
+        <!-- ================================= -->
+
+        <div class="report-footer">
+
+            This is a computer-generated laboratory report.
+            Please correlate laboratory findings with clinical information.
+
+            <br>
+
+            Report ID:
+            <strong th:text="${patientInfo.billNumber}">
+                RR-20261008-0001
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================= -->
+<!-- BARCODE + QR GENERATION -->
+<!-- ========================================= -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const billNumber =
+                /*[[${patientInfo.billNumber}]]*/ "RR-000000";
+
+            // ================================
+            // BARCODE
+            // ================================
+
+            JsBarcode(
+                "#barcode",
+                billNumber,
+                {
+                    format: "CODE128",
+                    displayValue: true,
+                    fontSize: 13,
+                    height: 55,
+                    margin: 5
+                }
+            );
+
+
+            // ================================
+            // QR CODE
+            // ================================
+
+            const qrElement =
+                document.getElementById("qrcode");
+
+            const verificationUrl =
+                window.location.origin +
+                qrElement.getAttribute("data-url");
+
+            new QRCode(
+                qrElement,
+                {
+                    text: verificationUrl,
+                    width: 110,
+                    height: 110,
+                    correctLevel: QRCode.CorrectLevel.H
+                }
+            );
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

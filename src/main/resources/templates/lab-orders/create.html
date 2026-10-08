@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Create Lab Order</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f5f7fb;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+        }
+
+        .tests {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .test {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 13px 25px;
+            background: #2563eb;
+            border: none;
+            color: white;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Create New Lab Order</h1>
+
+    <form
+        method="post"
+        action="/lab/orders/create">
+
+
+        <!-- PATIENT -->
+
+        <label>
+            Select Patient
+        </label>
+
+        <select
+            name="patientId"
+            required>
+
+            <option value="">
+                -- Select Patient --
+            </option>
+
+            <option
+                th:each="p : ${patients}"
+                th:value="${p.patientId}"
+                th:text="${p.firstName
+                    + ' '
+                    + p.lastName
+                    + ' - '
+                    + p.mobile}">
+
+            </option>
+
+        </select>
+
+
+        <!-- DOCTOR -->
+
+        <label>
+            Referring Doctor
+        </label>
+
+        <select
+            name="doctorId">
+
+            <option value="">
+                -- Select Doctor --
+            </option>
+
+            <option
+                th:each="doctor : ${doctors}"
+                th:value="${doctor.doctorId}"
+                th:text="${doctor.doctorName}">
+
+            </option>
+
+        </select>
+
+
+        <!-- ASSISTANT -->
+
+        <label>
+            Lab Assistant
+        </label>
+
+        <select
+            name="assistantId">
+
+            <option value="">
+                -- Select Assistant --
+            </option>
+
+            <option
+                th:each="assistant : ${assistants}"
+                th:value="${assistant.assistantId}"
+                th:text="${assistant.fullName}">
+
+            </option>
+
+        </select>
+
+
+        <!-- TESTS -->
+
+        <label>
+            Select Tests
+        </label>
+
+
+        <div class="tests">
+
+            <div
+                class="test"
+                th:each="test : ${tests}">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="testIds"
+                        th:value="${test.testId}">
+
+                    <span
+                        th:text="${test.testName}">
+                    </span>
+
+                    -
+
+                    ₹
+
+                    <span
+                        th:text="${test.price}">
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <button type="submit">
+
+            Create Laboratory Order
+
+        </button>
+
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

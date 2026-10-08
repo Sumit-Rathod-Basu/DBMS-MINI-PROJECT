@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Add Sample</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .form-container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        .buttons {
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 11px 20px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #125ca5;
+        }
+
+        .back {
+            margin-left: 12px;
+            text-decoration: none;
+            color: #555;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>Add Sample</h1>
+
+    <form th:action="@{/lab/samples/save}"
+          th:object="${sample}"
+          method="post">
+
+        <!-- Sample Code -->
+        <label>Sample Code</label>
+
+        <input type="text"
+               th:field="*{sampleCode}"
+               placeholder="Example: SMP-001"
+               required>
+
+
+        <!-- Lab Order -->
+        <label>Lab Order</label>
+
+        <select th:field="*{order}" required>
+
+            <option value="">
+                -- Select Lab Order --
+            </option>
+
+            <option th:each="order : ${orders}"
+                    th:value="${order.orderId}"
+                    th:text="${order.orderNumber}">
+            </option>
+
+        </select>
+
+
+        <!-- Sample Type -->
+        <label>Sample Type</label>
+
+        <input type="text"
+               th:field="*{sampleType}"
+               placeholder="Example: Blood"
+               required>
+
+
+        <!-- Collection Time -->
+        <label>Collection Time</label>
+
+        <input type="datetime-local"
+               th:field="*{collectionTime}">
+
+
+        <!-- Received Time -->
+        <label>Received Time</label>
+
+        <input type="datetime-local"
+               th:field="*{receivedTime}">
+
+
+        <!-- Status -->
+        <label>Status</label>
+
+        <select th:field="*{status}">
+
+            <option value="COLLECTED">
+                COLLECTED
+            </option>
+
+            <option value="RECEIVED">
+                RECEIVED
+            </option>
+
+            <option value="PROCESSING">
+                PROCESSING
+            </option>
+
+            <option value="COMPLETED">
+                COMPLETED
+            </option>
+
+        </select>
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Save Sample
+            </button>
+
+            <a href="/lab/samples" class="back">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

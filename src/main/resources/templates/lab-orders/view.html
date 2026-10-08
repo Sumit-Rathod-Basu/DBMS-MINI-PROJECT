@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lab Order</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f5f7fb;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="card">
+
+    <h1>
+        Laboratory Order
+    </h1>
+
+
+    <p>
+
+        <strong>Order Number:</strong>
+
+        <span
+            th:text="${order.orderNumber}">
+        </span>
+
+    </p>
+
+
+    <p>
+
+        <strong>Patient:</strong>
+
+        <span
+            th:text="${order.patient.firstName
+                + ' '
+                + order.patient.lastName}">
+        </span>
+
+    </p>
+
+
+    <p>
+
+        <strong>Doctor:</strong>
+
+        <span
+            th:text="${order.doctor != null
+                ? order.doctor.doctorName
+                : 'Not Assigned'}">
+        </span>
+
+    </p>
+
+
+    <p>
+
+        <strong>Status:</strong>
+
+        <span
+            th:text="${order.status}">
+        </span>
+
+    </p>
+
+
+    <p>
+
+        <strong>Total:</strong>
+
+        ₹
+
+        <span
+            th:text="${order.totalAmount}">
+        </span>
+
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        Ordered Tests
+    </h2>
+
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>
+                Test Code
+            </th>
+
+            <th>
+                Test Name
+            </th>
+
+            <th>
+                Price
+            </th>
+
+            <th>
+                Result
+            </th>
+
+            <th>
+                Status
+            </th>
+
+        </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        <tr
+            th:each="ot : ${orderTests}">
+
+            <td
+                th:text="${ot.test.testCode}">
+            </td>
+
+            <td
+                th:text="${ot.test.testName}">
+            </td>
+
+            <td>
+                ₹
+                <span
+                    th:text="${ot.test.price}">
+                </span>
+            </td>
+
+            <td
+                th:text="${ot.resultValue != null
+                    ? ot.resultValue
+                    : 'Pending'}">
+            </td>
+
+            <td
+                th:text="${ot.resultStatus}">
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+</body>
+
+</html>

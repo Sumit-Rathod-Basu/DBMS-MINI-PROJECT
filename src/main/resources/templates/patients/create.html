@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RR Diagnostics - New Patient</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <style>
+
+        body {
+            background: #f4f7fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .header-card {
+            background: #0b1f3a;
+            color: white;
+            padding: 25px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .header-card h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .header-card p {
+            margin: 5px 0 0;
+            opacity: 0.8;
+        }
+
+        .main-card {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0b1f3a;
+            border-bottom: 2px solid #e8edf3;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .bill-box {
+            background: #f8fafc;
+            border: 1px solid #e1e7ef;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .next-btn {
+            padding: 12px 35px;
+            font-weight: 600;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <!-- HEADER -->
+
+    <div class="header-card">
+
+        <h2>RR DIAGNOSTICS</h2>
+
+        <p>
+            Pathology Laboratory Management System
+        </p>
+
+        <small>
+            New Patient / Lab Bill
+        </small>
+
+    </div>
+
+
+    <div class="main-card">
+
+        <form
+                th:action="@{/lab/patient/save}"
+                th:object="${patientInfo}"
+                method="post">
+
+
+            <!-- =============================== -->
+            <!-- PATIENT INFORMATION -->
+            <!-- =============================== -->
+
+            <div class="section-title">
+                Patient Information
+            </div>
+
+
+            <div class="row g-3">
+
+                <!-- Patient Name -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Patient Name *
+                    </label>
+
+                    <input
+                            type="text"
+                            class="form-control"
+                            th:field="*{patientName}"
+                            placeholder="Enter patient name"
+                            required>
+
+                </div>
+
+
+                <!-- Mobile -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Mobile Number *
+                    </label>
+
+                    <input
+                            type="tel"
+                            class="form-control"
+                            th:field="*{mobile}"
+                            placeholder="10-digit mobile number"
+                            pattern="[6-9][0-9]{9}"
+                            maxlength="10"
+                            required>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+                    <input
+                            type="email"
+                            class="form-control"
+                            th:field="*{email}"
+                            placeholder="patient@example.com">
+
+                </div>
+
+
+                <!-- Gender -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Gender
+                    </label>
+
+                    <select
+                            class="form-select"
+                            th:field="*{gender}">
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Date of Birth -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Date of Birth
+                    </label>
+
+                    <input
+                            type="date"
+                            class="form-control"
+                            th:field="*{dateOfBirth}">
+
+                </div>
+
+
+                <!-- Address -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Address
+                    </label>
+
+                    <input
+                            type="text"
+                            class="form-control"
+                            th:field="*{address}"
+                            placeholder="Enter address">
+
+                </div>
+
+            </div>
+
+
+            <hr class="my-4">
+
+
+            <!-- =============================== -->
+            <!-- BILL INFORMATION -->
+            <!-- =============================== -->
+
+            <div class="section-title">
+                Bill Information
+            </div>
+
+
+            <div class="bill-box">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bill Number
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                value="Will be generated automatically"
+                                readonly>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bill Date
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                value="Automatic"
+                                readonly>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bill Time
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                value="Automatic"
+                                readonly>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr class="my-4">
+
+
+   ```html
+<!-- =============================== -->
+<!-- BILLING INFORMATION -->
+<!-- =============================== -->
+
+<div class="section-title">
+    Billing Information
+</div>
+
+<div class="bill-box">
+
+    <div class="row g-3">
+
+        <!-- SUBTOTAL -->
+
+        <div class="col-md-4">
+
+            <label class="form-label">
+                Subtotal (₹)
+            </label>
+
+            <input
+                    type="number"
+                    id="subtotal"
+                    class="form-control"
+                    th:field="*{subtotal}"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculateTotal()">
+
+        </div>
+
+
+        <!-- DISCOUNT -->
+
+        <div class="col-md-4">
+
+            <label class="form-label">
+                Discount (₹)
+            </label>
+
+            <input
+                    type="number"
+                    id="discount"
+                    class="form-control"
+                    th:field="*{discount}"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculateTotal()">
+
+        </div>
+
+
+        <!-- PAYMENT STATUS -->
+
+        <div class="col-md-4">
+
+            <label class="form-label">
+                Payment Status
+            </label>
+
+            <select
+                    class="form-select"
+                    th:field="*{paymentStatus}">
+
+                <option value="PENDING">Pending</option>
+                <option value="PAID">Paid</option>
+                <option value="PARTIAL">Partial</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- =============================== -->
+    <!-- FINAL TOTAL -->
+    <!-- =============================== -->
+
+    <div class="row mt-4">
+
+        <div class="col-md-6 ms-auto">
+
+            <div class="total-card">
+
+                <div class="total-label">
+                    FINAL TOTAL AMOUNT
+                </div>
+
+                <div class="total-amount">
+                    ₹ <span id="totalDisplay">0.00</span>
+                </div>
+
+            </div>
+
+            <!-- Hidden field sent to Spring Boot -->
+
+            <input
+                    type="hidden"
+                    id="totalAmount"
+                    th:field="*{totalAmount}">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .total-card {
+        background: #0b1f3a;
+        color: white;
+        padding: 20px 25px;
+        border-radius: 12px;
+        text-align: right;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    }
+
+    .total-label {
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0.8;
+        letter-spacing: 1px;
+    }
+
+    .total-amount {
+        font-size: 32px;
+        font-weight: 800;
+        margin-top: 5px;
+    }
+
+</style>
+
+
+<script>
+
+    function calculateTotal() {
+
+        const subtotal =
+            parseFloat(document.getElementById("subtotal").value) || 0;
+
+        const discount =
+            parseFloat(document.getElementById("discount").value) || 0;
+
+        let total = subtotal - discount;
+
+        if (total < 0) {
+            total = 0;
+        }
+
+        // Show total on screen
+        document.getElementById("totalDisplay").textContent =
+            total.toFixed(2);
+
+        // Send total to Spring Boot
+        document.getElementById("totalAmount").value =
+            total.toFixed(2);
+    }
+
+
+    // Run when page opens
+    document.addEventListener("DOMContentLoaded", function () {
+
+        calculateTotal();
+
+    });
+
+</script>
+```
+
+
+            <!-- =============================== -->
+            <!-- BUTTONS -->
+            <!-- =============================== -->
+
+            <div class="d-flex justify-content-between mt-5">
+
+                <a
+                        th:href="@{/lab/reports}"
+                        class="btn btn-outline-secondary">
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                        type="submit"
+                        class="btn btn-primary next-btn">
+
+                    NEXT →
+                    
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

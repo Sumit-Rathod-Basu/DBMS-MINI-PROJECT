@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+
+            margin: 0;
+
+            background: #f4f6f9;
+        }
+
+
+        /* =========================
+           NAVBAR
+           ========================= */
+
+        .navbar {
+
+            background: #1f2937;
+
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .logo {
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+        .logout {
+
+            background: #dc2626;
+
+            color: white;
+
+            padding: 9px 18px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+        }
+
+        .logout:hover {
+
+            background: #b91c1c;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: 35px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* =========================
+           WELCOME
+           ========================= */
+
+        .welcome {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+
+            margin: 0;
+
+            color: #1f2937;
+        }
+
+        .welcome p {
+
+            color: #6b7280;
+        }
+
+
+        /* =========================
+           PROFILE
+           ========================= */
+
+        .card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+
+            margin-top: 0;
+
+            color: #1f2937;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            padding-bottom: 12px;
+        }
+
+
+        .profile-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .profile-item {
+
+            background: #f9fafb;
+
+            padding: 15px;
+
+            border-radius: 7px;
+        }
+
+        .profile-label {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .profile-value {
+
+            color: #111827;
+
+            font-size: 16px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           REPORTS
+           ========================= */
+
+        .report-box {
+
+            background: #eff6ff;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            margin-top: 10px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 700px) {
+
+            .profile-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+
+                padding: 15px 20px;
+            }
+
+            .container {
+
+                margin-top: 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+     ========================= -->
+
+<div class="navbar">
+
+    <div class="logo">
+        Pathology Care Platform
+    </div>
+
+    <a
+            th:href="@{/patients/login}"
+            class="logout">
+
+        Logout
+
+    </a>
+
+</div>
+
+
+<!-- =========================
+     MAIN CONTENT
+     ========================= -->
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+
+            Welcome,
+
+            <span
+                    th:text="${patient.firstName}">
+                Patient
+            </span>
+
+        </h1>
+
+        <p>
+            Welcome to your patient dashboard.
+            You can view your personal information
+            and laboratory reports here.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         PATIENT PROFILE
+         ========================= -->
+
+    <div class="card">
+
+        <h2>
+            Patient Profile
+        </h2>
+
+
+        <div class="profile-grid">
+
+
+            <!-- Patient ID -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Patient ID
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.patientId}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- First Name -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    First Name
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.firstName}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Last Name -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Last Name
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.lastName}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Gender -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Gender
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.gender}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Date of Birth -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Date of Birth
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.dateOfBirth}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Mobile -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Mobile Number
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.mobile}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Email
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.email}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Blood Group -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Blood Group
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.bloodGroup}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Address -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Address
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.address}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Emergency Contact -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Emergency Contact Name
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.emergencyContactName}">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- Emergency Number -->
+
+            <div class="profile-item">
+
+                <div class="profile-label">
+                    Emergency Contact Number
+                </div>
+
+                <div
+                        class="profile-value"
+                        th:text="${patient.emergencyContactNumber}">
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         REPORTS
+         ========================= -->
+
+    <div class="card">
+
+        <h2>
+            My Laboratory Reports
+        </h2>
+
+        <div class="report-box">
+
+            <p>
+                Your laboratory reports will appear here.
+            </p>
+
+            <p>
+                <strong>
+                    Reports module can be connected next.
+                </strong>
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

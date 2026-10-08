@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Doctor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 11px 20px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back {
+            display: inline-block;
+            margin-left: 10px;
+            text-decoration: none;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>Add Doctor</h1>
+
+    <form th:action="@{/lab/doctors/save}"
+          th:object="${doctor}"
+          method="post">
+
+        <label>Doctor Name</label>
+
+        <input type="text"
+               th:field="*{doctorName}"
+               placeholder="Enter doctor name"
+               required>
+
+
+        <label>Specialization</label>
+
+        <input type="text"
+               th:field="*{specialization}"
+               placeholder="e.g. General Physician">
+
+
+        <label>Mobile</label>
+
+        <input type="text"
+               th:field="*{mobile}"
+               placeholder="Enter mobile number">
+
+
+        <label>Email</label>
+
+        <input type="email"
+               th:field="*{email}"
+               placeholder="Enter email">
+
+
+        <label>Status</label>
+
+        <select th:field="*{status}">
+
+            <option value="ACTIVE">
+                ACTIVE
+            </option>
+
+            <option value="INACTIVE">
+                INACTIVE
+            </option>
+
+        </select>
+
+
+        <button type="submit">
+            Save Doctor
+        </button>
+
+        <a href="/lab/doctors" class="back">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

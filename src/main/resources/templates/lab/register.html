@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lab Assistant Registration</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e293b,
+                    #020617
+                );
+        }
+
+        .register-card {
+
+            width: 430px;
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            color: white;
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #e2e8f0;
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            margin-bottom: 18px;
+
+            border-radius: 9px;
+
+            border: 1px solid #475569;
+
+            background: #0f172a;
+
+            color: white;
+
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+        }
+
+        button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .error {
+
+            background: #7f1d1d;
+
+            color: #fecaca;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            margin-bottom: 15px;
+
+            text-align: center;
+        }
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #cbd5e1;
+        }
+
+        .login-link a {
+
+            color: #38bdf8;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="register-card">
+
+    <h1>🧪 Lab Assistant</h1>
+
+    <div class="subtitle">
+        Create your account
+    </div>
+
+
+    <div
+            class="error"
+            th:if="${error}"
+            th:text="${error}">
+    </div>
+
+
+    <form
+            th:action="@{/lab/register}"
+            method="post">
+
+
+        <label>Full Name</label>
+
+        <input
+                type="text"
+                name="fullName"
+                placeholder="Enter full name"
+                required>
+
+
+        <label>Email</label>
+
+        <input
+                type="email"
+                name="email"
+                placeholder="Enter email"
+                required>
+
+
+        <label>Mobile Number</label>
+
+        <input
+                type="text"
+                name="mobile"
+                placeholder="Enter mobile number"
+                required>
+
+
+        <label>Password</label>
+
+        <input
+                type="password"
+                name="password"
+                placeholder="Create password"
+                required>
+
+
+        <button type="submit">
+            Create Account
+        </button>
+
+    </form>
+
+
+    <div class="login-link">
+
+        Already have an account?
+
+        <a th:href="@{/lab/login}">
+            Login
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 30px;
+        }
+
+        .card {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>Patient Details</h1>
+
+    <div class="row">
+        <div class="label">Patient ID</div>
+        <div th:text="${patient.patientId}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">First Name</div>
+        <div th:text="${patient.firstName}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Last Name</div>
+        <div th:text="${patient.lastName}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Gender</div>
+        <div th:text="${patient.gender}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Date of Birth</div>
+        <div th:text="${patient.dateOfBirth}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Mobile</div>
+        <div th:text="${patient.mobile}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Email</div>
+        <div th:text="${patient.email}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Address</div>
+        <div th:text="${patient.address}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Blood Group</div>
+        <div th:text="${patient.bloodGroup}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Emergency Contact</div>
+        <div th:text="${patient.emergencyContactName}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Emergency Number</div>
+        <div th:text="${patient.emergencyContactNumber}"></div>
+    </div>
+
+    <div class="row">
+        <div class="label">Status</div>
+        <div th:text="${patient.status}"></div>
+    </div>
+
+    <a th:href="@{/patients}">
+        ← Back
+    </a>
+
+    <a th:href="@{/patients/{id}/edit(id=${patient.patientId})}">
+        Edit Patient
+    </a>
+
+</div>
+
+</body>
+</html>

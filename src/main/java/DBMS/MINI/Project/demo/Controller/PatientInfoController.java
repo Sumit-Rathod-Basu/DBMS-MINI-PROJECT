@@ -38,6 +38,8 @@ public class PatientInfoController {
                 new PatientInfo()
         );
 
+        
+
         return "patients/create";
     }
 

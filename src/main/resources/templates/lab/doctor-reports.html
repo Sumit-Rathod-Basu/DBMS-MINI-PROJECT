@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Report Management</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: #1f2937;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            background: #2563eb;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Doctor Report Management</h1>
+
+    <div class="subtitle">
+        Select a completed report and assign it to a doctor for verification.
+    </div>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>Report ID</th>
+            <th>Patient</th>
+            <th>Test</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="report : ${reports}">
+
+            <td th:text="${report.id}">
+                1
+            </td>
+
+            <!--
+            CHANGE THESE PROPERTY NAMES IF YOUR TestInfo
+            ENTITY USES DIFFERENT FIELD NAMES.
+            -->
+
+            <td th:text="${report.patientName}">
+                Rahul
+            </td>
+
+            <td th:text="${report.testName}">
+                CBC
+            </td>
+
+            <td th:text="${report.createdAt}">
+                08/10/2026
+            </td>
+
+            <td>
+
+                <a
+                        class="btn"
+                        th:href="@{/lab/doctor-reports/assign/{id}(id=${report.id})}">
+                    Assign Doctor
+                </a>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

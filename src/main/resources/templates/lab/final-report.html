@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Final Pathology Report</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #e5e7eb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .report {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 45px;
+        }
+
+        .lab-header {
+            text-align: center;
+            border-bottom: 2px solid #111827;
+            padding-bottom: 20px;
+        }
+
+        .lab-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #555;
+        }
+
+        .section {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            background: #111827;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .label {
+            font-weight: bold;
+            width: 30%;
+        }
+
+        .verified {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #16a34a;
+        }
+
+        .remark {
+            background: #f9fafb;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin: 5px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+        }
+
+        @media print {
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .report {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .buttons {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="report">
+
+    <div class="lab-header">
+
+        <div class="lab-name">
+            PATHOLOGY LAB
+        </div>
+
+        <div class="subtitle">
+            Diagnostic & Laboratory Services
+        </div>
+
+        <div>
+            FINAL VERIFIED REPORT
+        </div>
+
+    </div>
+
+
+    <!-- PATIENT -->
+
+    <div class="section">
+
+        <div class="section-title">
+            PATIENT INFORMATION
+        </div>
+
+        <table>
+
+            <tr>
+
+                <td class="label">
+                    Patient Name
+                </td>
+
+                <td th:text="${testInfo.patientName}">
+                    Rahul Patil
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="label">
+                    Report ID
+                </td>
+
+                <td th:text="${testInfo.id}">
+                    REP001
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="label">
+                    Test
+                </td>
+
+                <td th:text="${testInfo.testName}">
+                    CBC
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!-- TEST -->
+
+    <div class="section">
+
+        <div class="section-title">
+            TEST INFORMATION
+        </div>
+
+        <table>
+
+            <tr>
+
+                <td class="label">
+                    Test Name
+                </td>
+
+                <td th:text="${testInfo.testName}">
+                    CBC
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!-- DOCTOR -->
+
+    <div class="section">
+
+        <div class="section-title">
+            DOCTOR REVIEW
+        </div>
+
+        <div class="remark">
+
+            <strong>
+                Doctor Remark
+            </strong>
+
+            <p th:text="${assignment.doctorRemark}">
+                Test results are within acceptable limits.
+            </p>
+
+        </div>
+
+
+        <div class="remark">
+
+            <strong>
+                Doctor Suggestion
+            </strong>
+
+            <p th:text="${assignment.doctorSuggestion}">
+                Maintain a balanced diet.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- VERIFICATION -->
+
+    <div class="verified">
+
+        <h3>
+            ✓ REPORT VERIFIED
+        </h3>
+
+        <p>
+
+            <strong>
+                Verified By:
+            </strong>
+
+            <span th:text="${assignment.verifiedBy}">
+                Dr. Rajesh Patil
+            </span>
+
+        </p>
+
+        <p>
+
+            <strong>
+                Verified At:
+            </strong>
+
+            <span th:text="${assignment.verifiedAt}">
+                08/10/2026 11:45 PM
+            </span>
+
+        </p>
+
+        <p>
+
+            <strong>
+                Status:
+            </strong>
+
+            <span th:text="${assignment.status}">
+                VERIFIED
+            </span>
+
+        </p>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <button onclick="window.print()">
+            🖨 Print Final Report
+        </button>
+
+        <button onclick="window.history.back()">
+            Back
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,94 +1,68 @@
 package DBMS.MINI.Project.demo.entity.lab;
 
 import jakarta.persistence.*;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "samples")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Sample {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sampleId;
+    private Long id;
 
-    @Column(nullable = false, unique = true)
+    // Unique sample number
+    @Column(name = "sample_code", unique = true, nullable = false)
     private String sampleCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
-    private LabOrder order;
+    // Patient name - stored for easy display
+    @Column(name = "patient_name", nullable = false)
+    private String patientName;
 
+    @Column(name = "age", nullable = false)
+    private String age;
+
+    // Test name
+    @Column(nullable = false)
+    private String testName;
+
+    // Blood / Urine / Stool etc.
+    @Column(nullable = false)
     private String sampleType;
 
-    private LocalDateTime collectionTime;
+    // Date and time of collection
+    @Column(nullable = false)
+    private LocalDate collectionDate;
 
-    private LocalDateTime receivedTime;
+    @Column(nullable = false)
+    private LocalTime collectionTime;
 
-    private String status;
+    // Person who collected sample
+    private String collectedBy;
 
+    // Barcode value
+    @Column(name = "barcode_value", unique = true, nullable = false)
+    private String barcodeValue;
 
-    public Sample() {
-    }
+    // Sample status
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SampleStatus status;
 
-
-    public Long getSampleId() {
-        return sampleId;
-    }
-
-    public void setSampleId(Long sampleId) {
-        this.sampleId = sampleId;
-    }
-
-
-    public String getSampleCode() {
-        return sampleCode;
-    }
-
-    public void setSampleCode(String sampleCode) {
-        this.sampleCode = sampleCode;
-    }
-
-
-    public LabOrder getOrder() {
-        return order;
-    }
-
-    public void setOrder(LabOrder order) {
-        this.order = order;
-    }
-
-
-    public String getSampleType() {
-        return sampleType;
-    }
-
-    public void setSampleType(String sampleType) {
-        this.sampleType = sampleType;
-    }
-
-
-    public LocalDateTime getCollectionTime() {
-        return collectionTime;
-    }
-
-    public void setCollectionTime(LocalDateTime collectionTime) {
-        this.collectionTime = collectionTime;
-    }
-
-    public LocalDateTime getReceivedTime() {
-        return receivedTime;
-    }
-
-    public void setReceivedTime(LocalDateTime receivedTime) {
-        this.receivedTime = receivedTime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public enum SampleStatus {
+        COLLECTED,
+        RECEIVED,
+        PROCESSING,
+        COMPLETED,
+        REJECTED,
+        CANCELLED
     }
 }

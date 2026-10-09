@@ -1,82 +1,107 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
     <meta charset="UTF-8">
 
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Add Sample</title>
 
     <style>
 
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
-            padding: 30px;
             font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            background: #f5f7fb;
         }
 
-        .form-container {
-            max-width: 650px;
-            margin: auto;
+        .header {
+            background: #111827;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
 
-        h1 {
-            margin-top: 0;
-            margin-bottom: 25px;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
         }
 
         label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
             font-weight: bold;
         }
 
         input,
         select {
-            width: 100%;
-            padding: 11px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
         }
 
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #1976d2;
+        .full {
+            grid-column: 1 / -1;
         }
 
         .buttons {
             margin-top: 25px;
+            display: flex;
+            gap: 10px;
         }
 
-        button {
-            padding: 11px 20px;
-            background: #1976d2;
-            color: white;
+        button,
+        .back {
+            padding: 12px 20px;
+            border-radius: 6px;
             border: none;
-            border-radius: 5px;
+            text-decoration: none;
             cursor: pointer;
         }
 
-        button:hover {
-            background: #125ca5;
+        button {
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
         }
 
         .back {
-            margin-left: 12px;
-            text-decoration: none;
-            color: #555;
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        @media(max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
         }
 
     </style>
@@ -85,100 +110,215 @@
 
 <body>
 
-<div class="form-container">
+<div class="header">
 
-    <h1>Add Sample</h1>
+    <h1>🧪 Add New Sample</h1>
 
-    <form th:action="@{/lab/samples/save}"
-          th:object="${sample}"
-          method="post">
-
-        <!-- Sample Code -->
-        <label>Sample Code</label>
-
-        <input type="text"
-               th:field="*{sampleCode}"
-               placeholder="Example: SMP-001"
-               required>
+</div>
 
 
-        <!-- Lab Order -->
-        <label>Lab Order</label>
+<div class="container">
 
-        <select th:field="*{order}" required>
+    <div class="card">
 
-            <option value="">
-                -- Select Lab Order --
-            </option>
+        <form th:action="@{/lab/samples/save}"
+              th:object="${sample}"
+              method="post">
 
-            <option th:each="order : ${orders}"
-                    th:value="${order.orderId}"
-                    th:text="${order.orderNumber}">
-            </option>
+            <div class="form-grid">
 
-        </select>
+                <!-- Patient Name -->
 
+                <div class="form-group">
 
-        <!-- Sample Type -->
-        <label>Sample Type</label>
+                    <label>
+                        Patient Name
+                    </label>
 
-        <input type="text"
-               th:field="*{sampleType}"
-               placeholder="Example: Blood"
-               required>
+                    <input type="text"
+                           th:field="*{patientName}"
+                           placeholder="Enter patient name"
+                           required>
 
-
-        <!-- Collection Time -->
-        <label>Collection Time</label>
-
-        <input type="datetime-local"
-               th:field="*{collectionTime}">
+                </div>
 
 
-        <!-- Received Time -->
-        <label>Received Time</label>
+                <!-- Age -->
 
-        <input type="datetime-local"
-               th:field="*{receivedTime}">
+                <div class="form-group">
 
+                    <label>
+                        Age
+                    </label>
 
-        <!-- Status -->
-        <label>Status</label>
+                    <input type="text"
+                           th:field="*{age}"
+                           placeholder="Enter age"
+                           required>
 
-        <select th:field="*{status}">
-
-            <option value="COLLECTED">
-                COLLECTED
-            </option>
-
-            <option value="RECEIVED">
-                RECEIVED
-            </option>
-
-            <option value="PROCESSING">
-                PROCESSING
-            </option>
-
-            <option value="COMPLETED">
-                COMPLETED
-            </option>
-
-        </select>
+                </div>
 
 
-        <div class="buttons">
+                <!-- Test -->
 
-            <button type="submit">
-                Save Sample
-            </button>
+                <div class="form-group">
 
-            <a href="/lab/samples" class="back">
-                Cancel
-            </a>
+                    <label>
+                        Test Name
+                    </label>
 
-        </div>
+                    <input type="text"
+                           th:field="*{testName}"
+                           placeholder="Example: CBC, LFT, KFT"
+                           required>
 
-    </form>
+                </div>
+
+
+                <!-- Sample Type -->
+
+                <div class="form-group">
+
+                    <label>
+                        Sample Type
+                    </label>
+
+                    <select th:field="*{sampleType}"
+                            required>
+
+                        <option value="">
+                            Select Sample Type
+                        </option>
+
+                        <option value="Blood">
+                            Blood
+                        </option>
+
+                        <option value="Urine">
+                            Urine
+                        </option>
+
+                        <option value="Stool">
+                            Stool
+                        </option>
+
+                        <option value="Serum">
+                            Serum
+                        </option>
+
+                        <option value="Plasma">
+                            Plasma
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Date -->
+
+                <div class="form-group">
+
+                    <label>
+                        Collection Date
+                    </label>
+
+                    <input type="date"
+                           th:field="*{collectionDate}">
+
+                </div>
+
+
+                <!-- Time -->
+
+                <div class="form-group">
+
+                    <label>
+                        Collection Time
+                    </label>
+
+                    <input type="time"
+                           th:field="*{collectionTime}">
+
+                </div>
+
+
+                <!-- Collected By -->
+
+                <div class="form-group full">
+
+                    <label>
+                        Collected By
+                    </label>
+
+                    <input type="text"
+                           th:field="*{collectedBy}"
+                           placeholder="Enter staff name">
+
+                </div>
+
+
+                <!-- Status -->
+
+                <div class="form-group">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select th:field="*{status}">
+
+                        <option value="COLLECTED">
+                            Collected
+                        </option>
+
+                        <option value="RECEIVED">
+                            Received
+                        </option>
+
+                        <option value="PROCESSING">
+                            Processing
+                        </option>
+
+                        <option value="COMPLETED">
+                            Completed
+                        </option>
+
+                        <option value="REJECTED">
+                            Rejected
+                        </option>
+
+                        <option value="CANCELLED">
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button type="submit">
+                    Save Sample
+                </button>
+
+                <a href="/lab/samples"
+                   class="back">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
 

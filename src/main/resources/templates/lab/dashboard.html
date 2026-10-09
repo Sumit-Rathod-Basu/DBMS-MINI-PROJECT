@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -222,17 +220,18 @@
                 🏠 Dashboard
             </a>
 
-            <a href="/lab/doctors">
-                👨‍⚕️ Doctors
+
+                           <a href="/patients">
+                👤 Patients
+            </a>
+               <a href="/patients/new">
+                👤 Patient Registration
             </a>
 
-            <a href="/lab/assistants">
-                🧑‍🔬 Lab Assistants
-            </a>
-
-            <a href="/lab/tests">
+            <a href="/lab/patient/new">
                 🧪 Lab Tests
             </a>
+
 
 
             <a href="/lab/samples">
@@ -298,42 +297,6 @@
             <div class="card">
 
                 <div class="card-icon">
-                    📋
-                </div>
-
-                <div class="card-title">
-                    Total Orders
-                </div>
-
-                <div class="card-number"
-                     th:text="${totalOrders}">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-icon">
-                    🧪
-                </div>
-
-                <div class="card-title">
-                    Total Tests
-                </div>
-
-                <div class="card-number"
-                     th:text="${totalTests}">
-                    0
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-icon">
                     🧫
                 </div>
 
@@ -347,8 +310,6 @@
                 </div>
 
             </div>
-
-
             <div class="card">
 
                 <div class="card-icon">
@@ -379,43 +340,11 @@
         <div class="quick-grid">
 
 
-            <a href="/lab/doctors"
-               class="quick-card">
-
-                <div class="quick-icon">
-                    👨‍⚕️
-                </div>
-
-                <div class="quick-title">
-                    Doctors
-                </div>
-
-                <div class="quick-text">
-                    Manage doctors and specialists
-                </div>
-
-            </a>
 
 
-            <a href="/lab/assistants"
-               class="quick-card">
-
-                <div class="quick-icon">
-                    🧑‍🔬
-                </div>
-
-                <div class="quick-title">
-                    Lab Assistants
-                </div>
-
-                <div class="quick-text">
-                    Manage laboratory staff
-                </div>
-
-            </a>
 
 
-            <a href="/lab/tests"
+            <a href="/lab/patient/new"
                class="quick-card">
 
                 <div class="quick-icon">
@@ -431,7 +360,6 @@
                 </div>
 
             </a>
-
             <a href="/lab/samples"
                class="quick-card">
 

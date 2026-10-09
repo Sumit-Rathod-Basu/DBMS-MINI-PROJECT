@@ -13,6 +13,8 @@ import DBMS.MINI.Project.demo.Service.LabReportService;
 import DBMS.MINI.Project.demo.Service.labservice.LabOrderService;
 import DBMS.MINI.Project.demo.Service.labservice.LabTestService;
 import DBMS.MINI.Project.demo.Service.labservice.SampleService;
+import DBMS.MINI.Project.demo.repository.labrepo.PatientInfoRepository;
+import DBMS.MINI.Project.demo.repository.labrepo.TestInfoRepository;
 
 @Controller
 @RequestMapping("/lab")
@@ -29,6 +31,9 @@ public class LabDashboardController {
 
     @Autowired
     private LabReportService labReportService;
+
+    @Autowired 
+    private PatientInfoRepository patientInfoRepository;
 
 
     @GetMapping("/dashboard")
@@ -73,7 +78,7 @@ public class LabDashboardController {
 
         model.addAttribute(
                 "totalReports",
-                labReportService.getAllReports().size()
+               patientInfoRepository.findAll().size()
         );
 
 

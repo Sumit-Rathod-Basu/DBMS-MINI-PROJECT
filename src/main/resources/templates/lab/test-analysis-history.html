@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis History | RR Diagnostics</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #1e293b;
+        }
+        header {
+            background: #102a43;
+            color: white;
+            padding: 22px 7%;
+        }
+        main { max-width: 1100px; margin: 35px auto; padding: 18px; }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        th { background: #f1f5f9; }
+        .empty { padding: 20px; color: #64748b; }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 11px 16px;
+            border-radius: 7px;
+            background: #087f8c;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>RR Diagnostics</h1>
+    <p>Analysis History</p>
+</header>
+
+<main>
+    <div class="card">
+        <h2>Previous Analysis Records</h2>
+
+        <p>
+            Patient ID:
+            <strong th:text="${patientId}">0</strong>
+        </p>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Analysis ID</th>
+                <th>Status</th>
+                <th>Total Tests</th>
+                <th>Compared Tests</th>
+                <th>Summary</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${analyses}">
+                <td th:text="${item.id}">1</td>
+                <td th:text="${item.analysisStatus}">ANALYZED</td>
+                <td th:text="${item.totalTests}">5</td>
+                <td th:text="${item.analyzedTests}">5</td>
+                <td th:text="${item.analysisMessage}">Summary</td>
+                <td th:text="${item.createdAt}">Date</td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(analyses)}">
+                <td colspan="6" class="empty">
+                    No analysis history found for this patient.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/lab/test-analysis}">Back to Analysis</a>
+    </div>
+</main>
+</body>
+</html>

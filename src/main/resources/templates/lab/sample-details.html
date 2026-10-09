@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Sample Details</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .item {
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .label {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .value {
+            margin-top: 5px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .barcode {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .buttons {
+            margin-top: 25px;
+        }
+
+        a {
+            padding: 11px 18px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>🧪 Sample Details</h1>
+
+</div>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h2
+            th:text="${sample.patientName}">
+            Patient Name
+        </h2>
+
+
+        <div class="details">
+
+            <div class="item">
+
+                <div class="label">
+                    Sample ID
+                </div>
+
+                <div class="value"
+                     th:text="${sample.id}">
+                    1
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Sample Code
+                </div>
+
+                <div class="value"
+                     th:text="${sample.sampleCode}">
+                    SMP-123
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Patient Name
+                </div>
+
+                <div class="value"
+                     th:text="${sample.patientName}">
+                    Rahul
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Age
+                </div>
+
+                <div class="value"
+                     th:text="${sample.age}">
+                    25
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Test
+                </div>
+
+                <div class="value"
+                     th:text="${sample.testName}">
+                    CBC
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Sample Type
+                </div>
+
+                <div class="value"
+                     th:text="${sample.sampleType}">
+                    Blood
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Collection Date
+                </div>
+
+                <div class="value"
+                     th:text="${sample.collectionDate}">
+                    2026-10-08
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Collection Time
+                </div>
+
+                <div class="value"
+                     th:text="${sample.collectionTime}">
+                    10:30
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Collected By
+                </div>
+
+                <div class="value"
+                     th:text="${sample.collectedBy}">
+                    Staff
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Status
+                </div>
+
+                <div class="value"
+                     th:text="${sample.status}">
+                    COLLECTED
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BARCODE -->
+
+        <div class="barcode">
+
+            <h3>Sample Barcode</h3>
+
+            <svg id="barcode"></svg>
+
+            <p th:text="${sample.barcodeValue}">
+                SMP-123
+            </p>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <a href="/lab/samples">
+                ← Back to Samples
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script th:inline="javascript">
+
+    let barcodeValue =
+        /*[[${sample.barcodeValue}]]*/ "SMP-123";
+
+    JsBarcode("#barcode", barcodeValue, {
+
+        format: "CODE128",
+
+        width: 2,
+
+        height: 80,
+
+        displayValue: true,
+
+        margin: 10
+
+    });
+
+</script>
+
+</body>
+
+</html>

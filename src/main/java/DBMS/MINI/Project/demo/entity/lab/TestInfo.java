@@ -48,4 +48,7 @@ public class TestInfo {
 
     @Column(length = 500)
     private String remarks;
+
+    @Column(name = "test_dataset_id")
+private Long testDatasetId;
 }
